@@ -1,0 +1,4 @@
+---
+ntp:
+  enabled: true
+  ntp_client: systemd-timesyncd

@@ -1,0 +1,3 @@
+---
+preserve_hostname: false
+hostname: {{ .hostname }}

@@ -1,0 +1,6 @@
+[submodule "_external/fuchsia.googlesource.com/fuchsia"]
+	path = _external/fuchsia.googlesource.com/fuchsia
+	url = https://fuchsia.googlesource.com/fuchsia
+[submodule "_external/github.com/canonical/cloud-init"]
+	path = _external/github.com/canonical/cloud-init
+	url = https://github.com/canonical/cloud-init.git

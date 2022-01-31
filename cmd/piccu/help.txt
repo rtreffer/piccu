@@ -1,0 +1,3 @@
+Usage: piccu [OPTIONS]... [FILE|DIR|GLOB]...
+Merge cloud-config files and templates into a multipart cloud-config archive
+and put that config onto an ubuntu raspberry pi image.

@@ -1,0 +1,14 @@
+---
+# allow ssh password authentication
+ssh_pwauth: true
+# configure the pi user, similar to regular raspberry images
+users:
+  - name: pi
+    plain_text_passwd: 'raspberry'
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    home: /home/pi
+    shell: /bin/bash
+    groups: [adm, admin, sudo, audio, cdrom, dialout, floppy, video, plugdev, dip, netdev]
+chpasswd:
+  list:
+  - pi:raspberry

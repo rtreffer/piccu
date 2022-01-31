@@ -1,0 +1,20 @@
+Usage: secretary [OPTIONS]... -- [COMMAND]
+Load secrets into the environment and execute the given command.
+
+secrets are loaded as bash shell scripts with all external execution
+disabled. Only simple assignments should be used, e.g.
+
+    shadow_hash=some_shadow_string
+    host_lang=${LANG:-C}
+    [...]
+
+All environment variables defined in the script will be merged into the
+current process environment before COMMAND is executed.
+
+A special environment variable SECRETARY_KEYS contains a space seperated
+list of all added variables names.
+
+Running secretary inside secretary will result in an append to SECRETARY_KEYS.
+
+Multiple pass/plain secrets can be specified and they will be loaded in
+the specified order.

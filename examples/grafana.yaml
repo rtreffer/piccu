@@ -1,0 +1,36 @@
+---
+# make sure that a grafana user exists
+users:
+  - name: grafana
+    shell: /sbin/nologin
+    system: true
+    lock_passwd: true
+    uid: 472
+# create a systemd unit that
+# - tries to pull a new image version
+# - runs podman as root
+# - grafana inside the container as user grafana
+write_files:
+  - owner: root:root
+    path: /etc/systemd/system/grafana.service
+    content: |
+      [Unit]
+      Description=grafana container
+      [Service]
+      WorkingDirectory=/srv/grafana
+      ExecStartPre=-/usr/bin/podman pull registry.docker.com/grafana/grafana-oss:latest-ubuntu
+      ExecStart=/usr/bin/podman run --net slirp4netns --rm --mount=type=bind,src=/srv/grafana,dst=/var/lib/grafana --publish 80:3000 registry.docker.com/grafana/grafana-oss:latest-ubuntu
+      Restart=always
+      [Install]
+      WantedBy=multi-user.target
+# install podman
+packages:
+  - podman-docker
+  - podman
+# create the required folders (/srv/grafana) and enable/start grafana
+runcmd:
+  - [ mkdir, /srv/grafana ]
+  - [ chown, grafana, /srv/grafana ]
+  - [ systemctl, daemon-reload ]
+  - [ systemctl, enable, grafana.service ]
+  - [ systemctl, start, grafana.service ]

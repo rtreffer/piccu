@@ -1,0 +1,4 @@
+---
+packages:
+  - avahi-daemon
+  - avahi-utils

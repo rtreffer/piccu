@@ -1,0 +1,26 @@
+Usage: cicci [OPTIONS]... [FILE|DIR|GLOB]...
+Merge cloud-config files and templates into a multipart cloud-config archive.
+
+cicci will scan the current directory if no file is specified.
+cicci writes to standard out.
+
+cicci supports the following filetypes (by extension):
+
+  .yaml | .yml | .json               YAML configuration file
+  .tpl.yaml | .tpl.yml | .tpl.json   templated YAML file
+  .sh | .bash                        shell scripts
+  .tpl.sh | .tpl.bash                templated shell scripts
+
+Templates are go templates with the environment loaded as context.
+cicci uses `sprig` for template functions.
+
+cicci does a simple YAML parse check before outputting a result.
+
+The cloud-init archive is configured to merge structure as
+
+  merge_how:
+   - name: list
+     settings: [append]
+   - name: dict
+     settings: [recurse_list]
+
