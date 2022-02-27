@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/klauspost/readahead"
 	"github.com/schollz/progressbar/v3"
 	"github.com/ulikunitz/xz"
 )
@@ -21,15 +22,26 @@ func checkPanic(err error) {
 	panic(err)
 }
 
+type CountWriter struct {
+	Count int
+}
+
+func (c *CountWriter) Write(buf []byte) (int, error) {
+	c.Count += len(buf)
+	return len(buf), nil
+}
+
 func main() {
 	for _, img := range os.Args[1:] {
 		resp, err := http.Get(img)
 		checkPanic(err)
 		bar := progressbar.DefaultBytes(
 			resp.ContentLength,
-			"download "+filepath.Base(img),
+			"downloading "+filepath.Base(img),
 		)
 
+		origSize := &CountWriter{}
+		unxzSize := &CountWriter{}
 		hash := sha256.New()
 		hashunxz := sha256.New()
 
@@ -40,23 +52,27 @@ func main() {
 		go func() {
 			defer wg.Done()
 			plain, err := xz.NewReader(xzIn)
+			ra := readahead.NewReader(plain)
 			checkPanic(err)
-			_, err = io.Copy(hashunxz, plain)
+			_, err = io.Copy(io.MultiWriter(hashunxz, unxzSize), ra)
 			checkPanic(err)
 		}()
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			_, err := io.Copy(io.MultiWriter(xzOut, hash, bar), resp.Body)
+			ra := readahead.NewReader(resp.Body)
+			_, err := io.Copy(io.MultiWriter(xzOut, origSize, hash, bar), ra)
 			checkPanic(err)
 			xzOut.Close()
 		}()
 		wg.Wait()
 		bar.Finish()
 
-		fmt.Printf("%s\t%s\t%s\n",
+		fmt.Printf("%s\t%d\t%s\t%d\t%s\n",
 			img,
+			origSize.Count,
 			"sha256:"+hex.EncodeToString(hash.Sum(nil)),
+			unxzSize.Count,
 			"sha256:"+hex.EncodeToString(hashunxz.Sum(nil)),
 		)
 	}
