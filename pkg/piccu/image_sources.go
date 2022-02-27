@@ -76,7 +76,7 @@ var ImageSources = []ImageSource{
 		Filesize:          769906140,
 		ExtractedFilesize: 3487742976,
 		Checksum:          "sha256:6aeba20c00ef13ee7b48c57217ad0d6fc3b127b3734c113981d9477aceb4dad7",
-		ImageChecksum:     "sha256:aae2a2efbe8c19d1657ba870687f5c5231543ac80d4a1ec97ac4887c86c107e3",
+		ImageChecksum:     "sha256:fc3e8fbeb7c3536aaeaf1a77ddbc95eb9bb98de17346d24ee68716856ce7f0fd",
 	},
 	{
 		Release:           "20.04",
