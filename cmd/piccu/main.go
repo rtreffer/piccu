@@ -27,7 +27,7 @@ func main() {
 	passConfig := flag.String("pass.config", "", "pass config file to load")
 	passStoreDir := flag.String("pass.store.dir", "", "pass store directory to use")
 
-	release := flag.String("ubuntu", "focal:arm64", "ubuntu release to use (supported releases: "+strings.Join(piccu.GetImageNames(), ",")+")")
+	release := flag.String("ubuntu", "jammy:arm64", "ubuntu release to use (supported releases: "+strings.Join(piccu.GetImageNames(), ",")+")")
 	output := flag.String("output", "disk.img", "output image")
 
 	injectBootFile := make(flags.StringArray, 0)
