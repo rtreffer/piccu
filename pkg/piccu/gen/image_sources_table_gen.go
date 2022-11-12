@@ -28,7 +28,7 @@ var goCodeTemplate = `package piccu
 //go:generate go run github.com/rtreffer/piccu/pkg/piccu/gen/
 
 var ImageSources = []ImageSource{
-    {{- range $index, $src := .sources -}}
+    {{- range $index, $src := .sources }}
 	{
 		Release:           "{{ $src.Release }}",
 		Codename:          "{{ $src.Codename }}",
@@ -40,7 +40,7 @@ var ImageSources = []ImageSource{
 		Checksum:          "{{ $src.Checksum }}",
 		ImageChecksum:     "{{ $src.ImageChecksum }}",
 	},
-	{{- end -}}
+	{{- end }}
 }
 `
 
