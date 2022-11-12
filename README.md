@@ -39,7 +39,7 @@ secretary --pass automation/node1 --plan node1/env -- cicci users.tpl.yaml node1
 
 `piccu` can be used to put these cloud-config files directly into an ubuntu image.
 
-**WARNING** cloud-config is not a safe way to stay secrets. As such it might be preferable to write the image to memory or to disk directly.
+**WARNING** cloud-config is not a safe way to store secrets. As such it might be preferable to write the image to memory or to disk directly.
 piccu injected cloud-config files are gzip encoded which obfuscate the payload.
 
 # Thanks
