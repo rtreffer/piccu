@@ -10,7 +10,9 @@ help:
 
 pkg/cicci/cloud-config.schema.json:
 	cd _external/github.com/canonical/cloud-init/ && \
-	python3 -c 'import json; from cloudinit.config.schema import *; print(json.dumps(get_schema()))' > \
-	"../../../../$@"
+	python3 -c 'import json; from cloudinit.config.schema import *; print(json.dumps(get_schema()))' | \
+	  jq . > "../../../../$@.tmp"
+	mv "$@.tmp" "$@"
+
 
 schema: pkg/cicci/cloud-config.schema.json
