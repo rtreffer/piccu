@@ -14,5 +14,4 @@ pkg/cicci/cloud-config.schema.json:
 	  jq . > "../../../../$@.tmp"
 	mv "$@.tmp" "$@"
 
-
 schema: pkg/cicci/cloud-config.schema.json
