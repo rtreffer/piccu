@@ -6,6 +6,7 @@ help:
 	@echo
 	@echo "targets:"
 	@echo "     schema     build the json schema from cloud-init sources"
+	@echo "     build      build the piccu binary"
 	@echo
 
 pkg/cicci/cloud-config.schema.json:
@@ -15,3 +16,10 @@ pkg/cicci/cloud-config.schema.json:
 	mv "$@.tmp" "$@"
 
 schema: pkg/cicci/cloud-config.schema.json
+
+.PHONY: build
+build: piccu
+
+.PHONY: piccu
+piccu:
+	go build github.com/rtreffer/piccu/cmd/piccu
